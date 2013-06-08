@@ -1,5 +1,6 @@
 package jms;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.jms.Connection;
@@ -19,13 +20,19 @@ import org.apache.activemq.ActiveMQConnectionFactory;
 import ui.components.TablePanel;
 import util.StockQuote;
 
-public class TopicConsumer {
+public class TopicConsumer implements Serializable{
 	
-    private Connection connection;
-    private Session session;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private transient ActiveMQConnectionFactory factory ;
+	private transient Connection connection;
+    private transient Session session;
     private String url;
     private Topic topic;
-    private TablePanel tablePanel;
+    private transient TablePanel tablePanel;
     
     public TopicConsumer(String url,TablePanel tablePanel) throws JMSException{ 
         if(url == null){
@@ -41,7 +48,7 @@ public class TopicConsumer {
     
     private void init() throws JMSException{
     	
-        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(url);
+    	factory = new ActiveMQConnectionFactory(url);
 		connection = factory.createConnection();
 		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 	

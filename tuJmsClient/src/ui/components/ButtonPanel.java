@@ -9,6 +9,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import ui.main.MainFrame;
+import util.Serializer;
+
 public class ButtonPanel extends JPanel {
 
 	/**
@@ -17,10 +20,10 @@ public class ButtonPanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JButton close, unsubscribe;
 	private JTextField textField;
-	private JFrame mainFrame;
+	private MainFrame mainFrame;
 	private TablePanel tablePanel;
 	
-	public ButtonPanel(JFrame mainFrame, TablePanel tablePanel){
+	public ButtonPanel(MainFrame mainFrame, TablePanel tablePanel){
 		this.mainFrame = mainFrame;
 		this.tablePanel = tablePanel;
 		init();
@@ -32,9 +35,9 @@ public class ButtonPanel extends JPanel {
 		close.addActionListener(new ActionListener(){
 
 			public void actionPerformed(ActionEvent arg0) {
-				
+				Serializer serializer = new Serializer(mainFrame.getStockMap(), "stockList.ser");
+				serializer.writeObject();
 				mainFrame.dispose();
-				
 			}
 
 			
