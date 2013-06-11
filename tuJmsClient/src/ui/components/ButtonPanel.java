@@ -38,6 +38,7 @@ public class ButtonPanel extends JPanel {
 				Serializer serializer = new Serializer(mainFrame.getStockMap(), "stockList.ser");
 				serializer.writeObject();
 				mainFrame.dispose();
+				System.exit(-1);
 			}
 
 			

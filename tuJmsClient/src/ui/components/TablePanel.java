@@ -1,6 +1,7 @@
 package ui.components;
 
 import java.awt.BorderLayout;
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -95,13 +96,14 @@ public class TablePanel extends JPanel {
 	}
 	
 	public void refreshTableUI(){
+		DecimalFormat f = new DecimalFormat("#0.00");
 		int i = 0;
 		resetArray();
 		for(Map.Entry<String, Map<StockQuote, TopicConsumer>> it:mainFrame.getStockMap().entrySet()){
 			Map<StockQuote, TopicConsumer> tempMap = new HashMap<StockQuote,TopicConsumer>();
 			tempMap = it.getValue();
 			for(StockQuote stockQuote:tempMap.keySet()){
-				Object[] row = { stockQuote.getIsin(), stockQuote.getName() , stockQuote.getQuote(), new Date(stockQuote.getTimeInMillis())};
+				Object[] row = { stockQuote.getIsin(), stockQuote.getName() , f.format(stockQuote.getQuote()), new Date(stockQuote.getTimeInMillis())};
 				data[i] = row;
 				i++;
 			}

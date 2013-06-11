@@ -13,6 +13,7 @@ import jms.TopicConsumer;
 import ui.components.ButtonPanel;
 import ui.components.SearchPanel;
 import ui.components.TablePanel;
+import util.Serializer;
 import util.StockQuote;
 public class MainFrame extends JFrame{
 
@@ -35,6 +36,11 @@ public class MainFrame extends JFrame{
 		tablePanel.setPreferredSize(new Dimension(800,100));
 		
 		this.add(tablePanel, BorderLayout.CENTER);
+	
+		Serializer serializer = new Serializer("stockList.ser");
+		stockMap = serializer.readObject(tablePanel);
+		
+		tablePanel.refreshTableUI();
 		
 		//Gesamt Box Einstellung
 		SearchPanel searchPanel = new SearchPanel(tablePanel);
@@ -50,11 +56,12 @@ public class MainFrame extends JFrame{
 		
 		//MainFrame Einstellungen
 		//this.setBackground(Color.BLUE);
-		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.setResizable(false);
 		this.setLocation(50, 50);
 		this.pack();
 		this.setVisible(true);
+		this.setFocusable(true);
 	}
 
 	public Map<String, Map<StockQuote, TopicConsumer>> getStockMap() {

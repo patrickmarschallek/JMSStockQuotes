@@ -50,10 +50,10 @@ public class StockExchange {
 			for(StockQuote quote: generateQuotes()){
 				double newStockQuote = 0.00;
 				if(counter == 1){
-					newStockQuote = quote.getQuote() + (quote.getQuote() * 0.5);
+					newStockQuote = quote.getQuote() + (quote.getQuote() * 0.2);
 					counter = 0;
 				}else if(counter == 0){
-					newStockQuote = quote.getQuote() - (quote.getQuote() * 0.5);
+					newStockQuote = quote.getQuote() - (quote.getQuote() * 0.2);
 					counter = 1;
 				}
 				quote.setQuote(newStockQuote);

@@ -46,8 +46,7 @@ public class TopicConsumer implements Serializable{
 
     }
     
-    private void init() throws JMSException{
-    	
+    public void init() throws JMSException{
     	factory = new ActiveMQConnectionFactory(url);
 		connection = factory.createConnection();
 		session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
@@ -82,6 +81,14 @@ public class TopicConsumer implements Serializable{
 
 	public Connection getConnection() {
 		return connection;
+	}
+
+	public TablePanel getTablePanel() {
+		return tablePanel;
+	}
+
+	public void setTablePanel(TablePanel tablePanel) {
+		this.tablePanel = tablePanel;
 	}
 
 }

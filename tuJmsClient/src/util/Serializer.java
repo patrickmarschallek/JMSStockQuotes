@@ -1,13 +1,23 @@
 package util;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInput;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutput;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
+import java.util.HashMap;
 import java.util.Map;
+
+import javax.jms.JMSException;
+
+import ui.components.TablePanel;
 
 import jms.TopicConsumer;
 
@@ -22,6 +32,11 @@ public class Serializer {
 		this.fileName = fileName;
 	}
 
+	public Serializer(String fileName){
+		this.objToSerialize = null;
+		this.fileName = fileName;
+	}
+	
 	public void writeObject(){
 		
 	        OutputStream file;
@@ -36,10 +51,48 @@ public class Serializer {
 			}  
 	}
 	
-	public Map<String,Map<StockQuote, TopicConsumer>> readObject(){
+	public Map<String,Map<StockQuote, TopicConsumer>> readObject(TablePanel tablePanel){
+		Map<String,Map<StockQuote, TopicConsumer>> recoveredStocks = null;
+		      //use buffering
+		      InputStream file;
+			try {
+				file = new FileInputStream(this.fileName);
+			      InputStream buffer = new BufferedInputStream(file);
+			      ObjectInput input = new ObjectInputStream (buffer);
+
+			        //deserialize the List
+			     recoveredStocks = (Map<String,Map<StockQuote, TopicConsumer>>)input.readObject();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			} catch (ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+	
+		return reinitializeConsumer(recoveredStocks, tablePanel);
 		
-		return null;
-		
+	}
+	
+	
+	private Map<String,Map<StockQuote, TopicConsumer>> reinitializeConsumer(Map<String,Map<StockQuote, TopicConsumer>> list, TablePanel tablePanel){
+		for(Map<StockQuote, TopicConsumer> innerMap:list.values()){
+			for(Map.Entry<StockQuote, TopicConsumer> it:innerMap.entrySet()){
+				StockQuote sQuote = it.getKey();
+				TopicConsumer cons = it.getValue();
+				
+				try {
+					cons.init();
+					cons.subscribe(sQuote.getName());
+				} catch (JMSException e) {
+					e.printStackTrace();
+				}
+				
+				cons.setTablePanel(tablePanel);
+				it.setValue(cons);
+			}
+		}		
+		return list;
 	}
 	
 	public Object getObjToSerialize() {

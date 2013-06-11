@@ -3,7 +3,7 @@ package start;
 import ui.main.MainFrame;
 
 public class StartClient {
-
+	
 	/**
 	 * @param args
 	 */
