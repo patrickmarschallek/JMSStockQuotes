@@ -51,7 +51,7 @@ public class Serializer {
 			}  
 	}
 	
-	public Map<String,Map<StockQuote, TopicConsumer>> readObject(TablePanel tablePanel){
+	public Map<String,Map<StockQuote, TopicConsumer>> readObject(TablePanel tablePanel) throws IOException{
 		Map<String,Map<StockQuote, TopicConsumer>> recoveredStocks = null;
 		      //use buffering
 		      InputStream file;
@@ -62,10 +62,6 @@ public class Serializer {
 
 			        //deserialize the List
 			     recoveredStocks = (Map<String,Map<StockQuote, TopicConsumer>>)input.readObject();
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-			} catch (IOException e) {
-				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}

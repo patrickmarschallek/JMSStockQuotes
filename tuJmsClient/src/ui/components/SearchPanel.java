@@ -51,8 +51,7 @@ public class SearchPanel extends JPanel {
 
 			@Override
 			public void focusLost(FocusEvent e) {
-				// TODO Auto-generated method stub
-				
+				//Nothing to do
 			}			
 		});
 		
@@ -74,7 +73,7 @@ public class SearchPanel extends JPanel {
 					    JOptionPane.ERROR_MESSAGE);
 					}
 
-					getStockName().setText("");				
+					getStockName().setText("Available Quotes: VW, BASF, Adidas, deutsche Telekom, Eon");		
 		
 			}
 			

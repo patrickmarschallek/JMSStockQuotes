@@ -2,11 +2,13 @@ package ui.main;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.jms.Topic;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import jms.TopicConsumer;
 
@@ -38,7 +40,16 @@ public class MainFrame extends JFrame{
 		this.add(tablePanel, BorderLayout.CENTER);
 	
 		Serializer serializer = new Serializer("stockList.ser");
-		stockMap = serializer.readObject(tablePanel);
+		
+		try {
+			stockMap = serializer.readObject(tablePanel);
+		} catch (IOException e) {
+			JOptionPane.showMessageDialog(getRootPane(),
+			"IOException, can't read data from file stockList.ser",
+		    "Exception",
+		    JOptionPane.ERROR_MESSAGE);
+			e.printStackTrace();
+		}
 		
 		tablePanel.refreshTableUI();
 		
