@@ -82,6 +82,7 @@ public class StockExchange {
 					counter = 1;
 				}
 				quote.setQuote(newStockQuote);
+				quote.setTimeInMillis(System.currentTimeMillis());
 				publisher.publishObjectMessage(quote);
 			}
 			

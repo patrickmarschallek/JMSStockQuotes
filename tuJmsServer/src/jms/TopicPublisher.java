@@ -51,10 +51,8 @@ public class TopicPublisher {
 			requestsQueue = session.createQueue("requests");
 			requestConsumer = session.createConsumer(requestsQueue);
 			requestConsumer.setMessageListener(new MessageListener() {
-				
-				@Override
 				public void onMessage(Message arg0) {
-					handleRequestMessage(arg0);
+					handleRequestMessage(arg0);		
 				}
 			});
 			connection.start();
