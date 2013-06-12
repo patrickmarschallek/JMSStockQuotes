@@ -57,11 +57,14 @@ public class Serializer {
 		      InputStream file;
 			try {
 				file = new FileInputStream(this.fileName);
-			      InputStream buffer = new BufferedInputStream(file);
-			      ObjectInput input = new ObjectInputStream (buffer);
+			    InputStream buffer = new BufferedInputStream(file);
+			    ObjectInput input = new ObjectInputStream (buffer);
 
-			        //deserialize the List
+			     //deserialize the List
 			     recoveredStocks = (Map<String,Map<StockQuote, TopicConsumer>>)input.readObject();
+			     file.close();
+			     buffer.close();
+			     input.close();
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 			}
